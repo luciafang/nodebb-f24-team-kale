@@ -206,24 +206,18 @@ define('forum/topic/postTools', [
 				const numMinutes = Math.floor(((duration % 86400) % 3600) / 60);
 				const numSeconds = ((duration % 86400) % 3600) % 60;
 				let msg = '[[error:' + languageKey + ', ' + duration + ']]';
-				if (numDays) {
-					if (numHours) {
-						msg = '[[error:' + languageKey + '-days-hours, ' + numDays + ', ' + numHours + ']]';
-					} else {
-						msg = '[[error:' + languageKey + '-days, ' + numDays + ']]';
-					}
-				} else if (numHours) {
-					if (numMinutes) {
-						msg = '[[error:' + languageKey + '-hours-minutes, ' + numHours + ', ' + numMinutes + ']]';
-					} else {
-						msg = '[[error:' + languageKey + '-hours, ' + numHours + ']]';
-					}
-				} else if (numMinutes) {
-					if (numSeconds) {
-						msg = '[[error:' + languageKey + '-minutes-seconds, ' + numMinutes + ', ' + numSeconds + ']]';
-					} else {
-						msg = '[[error:' + languageKey + '-minutes, ' + numMinutes + ']]';
-					}
+				if (numDays && numHours) {
+					msg = '[[error:' + languageKey + '-days-hours, ' + numDays + ', ' + numHours + ']]';
+				} else if (numDays && !numHours) {
+					msg = '[[error:' + languageKey + '-days, ' + numDays + ']]';
+				} else if (numHours && numMinutes) {
+					msg = '[[error:' + languageKey + '-hours-minutes, ' + numHours + ', ' + numMinutes + ']]';
+				} else if (numHours && !numMinutes) {
+					msg = '[[error:' + languageKey + '-hours, ' + numHours + ']]';
+				} else if (numMinutes && numSeconds) {
+					msg = '[[error:' + languageKey + '-minutes-seconds, ' + numMinutes + ', ' + numSeconds + ']]';
+				} else if (numMinutes && !numSeconds) {
+					msg = '[[error:' + languageKey + '-minutes, ' + numMinutes + ']]';
 				}
 				alerts.error(msg);
 				return false;
