@@ -279,26 +279,14 @@ describe('Utility Methods', () => {
 		done();
 	});
 
-	// it('should return false if browser is not android', (done) => {
-	// 	global.navigator = {
-	// 		userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36',
-	// 	};
-	// 	assert.equal(utils.isAndroidBrowser(), false);
-	// 	done();
-	// });
-
-	it('should return false for an invalid user agent', (done) => {
-		// Simulate an invalid or incomplete user agent string
+	it('should return false if browser is not android', (done) => {
 		Object.defineProperty(global, 'navigator', {
 			value: {
-				userAgent: 'InvalidUserAgent/1.0',
+				userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36',
 			},
-			configurable: true
+			writable: true,
 		});
-	
-		assert.equal(utils.isAndroidBrowser(), false);
-	
-		delete global.navigator; // Clean up
+		assert.strictEqual(utils.isAndroidBrowser(), false);
 		done();
 	});
 	
