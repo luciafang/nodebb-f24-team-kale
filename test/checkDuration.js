@@ -1,6 +1,7 @@
 'use strict';
 
 
+console.log('Lucia Fang, yufang')
 const assert = require('assert');
 
 const path = require('path');
@@ -97,12 +98,6 @@ describe('PostTools.checkDuration', () => {
     let originalDateNow;
     let alerts;
 
-    // before(() => {
-    // 	originalDateNow = Date.now;
-    // });
-
-
-    // // initialized
     if (!ajaxify.data.privileges) {
         ajaxify.data.privileges = {};
     }
@@ -110,21 +105,10 @@ describe('PostTools.checkDuration', () => {
     ajaxify.data.privileges.isAdminOrMod = true;
 
 
-    // it('should return true if user is admin or mod', () => {
-    //     ajaxify.data.privileges.isAdminOrMod = true;
-    //     const result = PostTools.checkDuration(100, Date.now() - 5000, 'timeout');
-    //     assert.strictEqual(result, true);
-    // });
-
-    // it('should return true if no duration is provided', () => {
-    //     const result = PostTools.checkDuration(null, Date.now() - 5000, 'timeout');
-    //     assert.strictEqual(result, true);
-    // });
-
     it('should return true if post timestamp is within the duration', () => {
         const duration = 10; // 10 seconds
         const currentTime = 10000; 
-        const postTimestamp = 9000; // Post was made 1 second ago
+        const postTimestamp = 9000; // 1 second ago
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
         assert.strictEqual(result, true);
     });
@@ -132,13 +116,13 @@ describe('PostTools.checkDuration', () => {
     it('should return false if post timestamp exceeds the duration', () => {
         const duration = 10; // 10 seconds
         const currentTime = 20000; 
-        const postTimestamp = 5000; // Post was made 15 seconds ago
+        const postTimestamp = 5000; //  15 seconds ago
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
         assert.strictEqual(result, true);
     });
 
     it('should display days and hours if duration exceeds one day', () => {
-        const duration = 90000; // More than a day (86400 seconds +)
+        const duration = 90000; 
         const currentTime = 200000; 
         const postTimestamp = 100000;
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
@@ -146,7 +130,7 @@ describe('PostTools.checkDuration', () => {
     });
 
     it('should display only days if there are no hours', () => {
-        const duration = 86400; // Exactly one day
+        const duration = 86400; 
         const currentTime = 200000;
         const postTimestamp = 113600;
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
@@ -154,7 +138,7 @@ describe('PostTools.checkDuration', () => {
     });
 
     it('should display hours and minutes if duration is within hours', () => {
-        const duration = 7200 + 1200; // 2 hours and 20 minutes
+        const duration = 7200 + 1200; 
         const currentTime = 300000;
         const postTimestamp = 291600;
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
@@ -162,7 +146,7 @@ describe('PostTools.checkDuration', () => {
     });
 
     it('should display only hours if no minutes', () => {
-        const duration = 3600; // 1 hour
+        const duration = 3600; 
         const currentTime = 400000;
         const postTimestamp = 396400;
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
@@ -170,7 +154,7 @@ describe('PostTools.checkDuration', () => {
     });
 
     it('should display minutes and seconds if duration is within minutes', () => {
-        const duration = 120 + 30; // 2 minutes and 30 seconds
+        const duration = 120 + 30; 
         const currentTime = 500000;
         const postTimestamp = 499850;
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
@@ -178,7 +162,7 @@ describe('PostTools.checkDuration', () => {
     });
 
     it('should display only minutes if no seconds', () => {
-        const duration = 120; // 2 minutes
+        const duration = 120; 
         const currentTime = 600000;
         const postTimestamp = 599880;
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
@@ -186,16 +170,17 @@ describe('PostTools.checkDuration', () => {
     });
 
     it('should return true if no post timestamp is provided', () => {
-        const currentTime = 300000; // Hardcoded current time
+        const currentTime = 300000; 
         const result = PostTools.checkDuration(100, null, 'timeout', currentTime);
         assert.strictEqual(result, true);
     });
 
     it('should return false and display correct error if timestamp is exactly at the limit', () => {
-        const duration = 60; // 1 minute
+        const duration = 60; 
         const currentTime = 300000;
-        const postTimestamp = 299940; // 60 seconds ago, exactly at the limit
+        const postTimestamp = 299940; 
         const result = PostTools.checkDuration(duration, postTimestamp, 'timeout', currentTime);
         assert.strictEqual(result, true);
     });
 });
+console.log('Lucia Fang, yufang')
