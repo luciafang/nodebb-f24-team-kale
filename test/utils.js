@@ -7,6 +7,7 @@ const { JSDOM } = require('jsdom');
 const slugify = require('../src/slugify');
 const db = require('./mocks/databasemock');
 
+
 describe('Utility Methods', () => {
 	// https://gist.github.com/robballou/9ee108758dc5e0e2d028
 	// create some jsdom magic to allow jQuery to work
@@ -289,8 +290,6 @@ describe('Utility Methods', () => {
 		assert.strictEqual(utils.isAndroidBrowser(), false);
 		done();
 	});
-	
-
 
 	it('should return true if browser is android', (done) => {
 		global.navigator = {

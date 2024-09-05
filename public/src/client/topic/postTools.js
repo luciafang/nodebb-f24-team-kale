@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/postTools', [
 	'share',
 	'navigator',
@@ -14,6 +13,38 @@ define('forum/topic/postTools', [
 	'helpers',
 ], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers) {
 	const PostTools = {};
+
+	PostTools.checkDuration = function (duration, postTimestamp, languageKey) {
+		if (!ajaxify.data.privileges.isAdminOrMod && duration && Date.now() - postTimestamp > duration * 1000) {
+			const numDays = Math.floor(duration / 86400);
+			const numHours = Math.floor((duration % 86400) / 3600);
+			const numMinutes = Math.floor(((duration % 86400) % 3600) / 60);
+			const numSeconds = ((duration % 86400) % 3600) % 60;
+			let msg = '[[error:' + languageKey + ', ' + duration + ']]';
+			console.log('Lucia Fang, yufang')
+			if (numDays && numHours) {
+				msg = '[[error:' + languageKey + '-days-hours, ' + numDays + ', ' + numHours + ']]';
+			} else if (numDays && !numHours) {
+				msg = '[[error:' + languageKey + '-days, ' + numDays + ']]';
+			} else if (numHours && numMinutes) {
+				msg = '[[error:' + languageKey + '-hours-minutes, ' + numHours + ', ' + numMinutes + ']]';
+			} else if (numHours && !numMinutes) {
+				msg = '[[error:' + languageKey + '-hours, ' + numHours + ']]';
+			} else if (numMinutes && numSeconds) {
+				msg = '[[error:' + languageKey + '-minutes-seconds, ' + numMinutes + ', ' + numSeconds + ']]';
+			} else if (numMinutes && !numSeconds) {
+				msg = '[[error:' + languageKey + '-minutes, ' + numMinutes + ']]';
+			}
+			console.log('Lucia Fang, yufang')
+			alerts.error(msg);
+			return false;
+		}
+		return true;
+	}
+
+	//lucia
+	const utils = require('../../utils');
+	//lucia
 
 	let staleReplyAnyway = false;
 
@@ -198,32 +229,6 @@ define('forum/topic/postTools', [
 				togglePostDelete($(this));
 			}
 		});
-
-		function checkDuration(duration, postTimestamp, languageKey) {
-			if (!ajaxify.data.privileges.isAdminOrMod && duration && Date.now() - postTimestamp > duration * 1000) {
-				const numDays = Math.floor(duration / 86400);
-				const numHours = Math.floor((duration % 86400) / 3600);
-				const numMinutes = Math.floor(((duration % 86400) % 3600) / 60);
-				const numSeconds = ((duration % 86400) % 3600) % 60;
-				let msg = '[[error:' + languageKey + ', ' + duration + ']]';
-				if (numDays && numHours) {
-					msg = '[[error:' + languageKey + '-days-hours, ' + numDays + ', ' + numHours + ']]';
-				} else if (numDays && !numHours) {
-					msg = '[[error:' + languageKey + '-days, ' + numDays + ']]';
-				} else if (numHours && numMinutes) {
-					msg = '[[error:' + languageKey + '-hours-minutes, ' + numHours + ', ' + numMinutes + ']]';
-				} else if (numHours && !numMinutes) {
-					msg = '[[error:' + languageKey + '-hours, ' + numHours + ']]';
-				} else if (numMinutes && numSeconds) {
-					msg = '[[error:' + languageKey + '-minutes-seconds, ' + numMinutes + ', ' + numSeconds + ']]';
-				} else if (numMinutes && !numSeconds) {
-					msg = '[[error:' + languageKey + '-minutes, ' + numMinutes + ']]';
-				}
-				alerts.error(msg);
-				return false;
-			}
-			return true;
-		}
 
 		postContainer.on('click', '[component="post/restore"]', function () {
 			togglePostDelete($(this));
@@ -546,3 +551,5 @@ define('forum/topic/postTools', [
 
 	return PostTools;
 });
+
+
