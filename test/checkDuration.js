@@ -67,10 +67,8 @@ global.ajaxify = {
 
 require(path.resolve(__dirname, '../public/src/client/topic/postTools.js'));
 
-// Clear the `define` function
 delete global.define;
 
-// Access the `checkDuration` function
 const PostTools = global.postToolsModule;
 
 const sleep = util.promisify(setTimeout);
