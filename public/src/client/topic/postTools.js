@@ -203,7 +203,7 @@ define('forum/topic/postTools', [
 			const timestamp = parseInt(getData(btn, 'data-timestamp'), 10);
 			const postEditDuration = parseInt(ajaxify.data.postEditDuration, 10);
 
-			if (checkDuration(postEditDuration, timestamp, 'post-edit-duration-expired')) {
+			if (PostTools.checkDuration(postEditDuration, timestamp, 'post-edit-duration-expired')) {
 				hooks.fire('action:composer.post.edit', {
 					pid: getData(btn, 'data-pid'),
 				});
@@ -223,7 +223,7 @@ define('forum/topic/postTools', [
 			const btn = $(this);
 			const timestamp = parseInt(getData(btn, 'data-timestamp'), 10);
 			const postDeleteDuration = parseInt(ajaxify.data.postDeleteDuration, 10);
-			if (checkDuration(postDeleteDuration, timestamp, 'post-delete-duration-expired')) {
+			if (PostTools.checkDuration(postDeleteDuration, timestamp, 'post-delete-duration-expired')) {
 				togglePostDelete($(this));
 			}
 		});
