@@ -14,7 +14,7 @@ define('forum/topic/postTools', [
 ], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers) {
 	const PostTools = {};
 
-	console.log('Lucia Fang, yufang')
+	console.log('Lucia Fang, yufang');
 	PostTools.checkDuration = function (duration, postTimestamp, languageKey) {
 		if (!ajaxify.data.privileges.isAdminOrMod && duration && Date.now() - postTimestamp > duration * 1000) {
 			const numDays = Math.floor(duration / 86400);
@@ -39,10 +39,10 @@ define('forum/topic/postTools', [
 			return false;
 		}
 		return true;
-	}
+	};
 
 	const utils = require('../../utils');
-	console.log('Lucia Fang, yufang')
+	console.log('Lucia Fang, yufang');
 
 	let staleReplyAnyway = false;
 
