@@ -14,7 +14,7 @@ define('forum/topic/postTools', [
 ], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers) {
 	const PostTools = {};
 
-	console.log('Lucia Fang, yufang');
+	console.log('Lucia Fang');
 	PostTools.checkDuration = function (duration, postTimestamp, languageKey) {
 		if (!ajaxify.data.privileges.isAdminOrMod && duration && Date.now() - postTimestamp > duration * 1000) {
 			const numDays = Math.floor(duration / 86400);
@@ -40,9 +40,7 @@ define('forum/topic/postTools', [
 		}
 		return true;
 	};
-
 	const utils = require('../../utils');
-	console.log('Lucia Fang, yufang');
 
 	let staleReplyAnyway = false;
 
@@ -202,7 +200,7 @@ define('forum/topic/postTools', [
 
 			const timestamp = parseInt(getData(btn, 'data-timestamp'), 10);
 			const postEditDuration = parseInt(ajaxify.data.postEditDuration, 10);
-
+			console.log('Lucia Fang');
 			if (PostTools.checkDuration(postEditDuration, timestamp, 'post-edit-duration-expired')) {
 				hooks.fire('action:composer.post.edit', {
 					pid: getData(btn, 'data-pid'),
@@ -223,6 +221,7 @@ define('forum/topic/postTools', [
 			const btn = $(this);
 			const timestamp = parseInt(getData(btn, 'data-timestamp'), 10);
 			const postDeleteDuration = parseInt(ajaxify.data.postDeleteDuration, 10);
+			console.log('Lucia Fang');
 			if (PostTools.checkDuration(postDeleteDuration, timestamp, 'post-delete-duration-expired')) {
 				togglePostDelete($(this));
 			}
