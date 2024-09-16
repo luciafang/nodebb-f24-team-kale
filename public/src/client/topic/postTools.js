@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/postTools', [
 	'share',
 	'navigator',
@@ -14,6 +13,34 @@ define('forum/topic/postTools', [
 	'helpers',
 ], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers) {
 	const PostTools = {};
+
+	console.log('Lucia Fang');
+	PostTools.checkDuration = function (duration, postTimestamp, languageKey) {
+		if (!ajaxify.data.privileges.isAdminOrMod && duration && Date.now() - postTimestamp > duration * 1000) {
+			const numDays = Math.floor(duration / 86400);
+			const numHours = Math.floor((duration % 86400) / 3600);
+			const numMinutes = Math.floor(((duration % 86400) % 3600) / 60);
+			const numSeconds = ((duration % 86400) % 3600) % 60;
+			let msg = '[[error:' + languageKey + ', ' + duration + ']]';
+			if (numDays && numHours) {
+				msg = '[[error:' + languageKey + '-days-hours, ' + numDays + ', ' + numHours + ']]';
+			} else if (numDays && !numHours) {
+				msg = '[[error:' + languageKey + '-days, ' + numDays + ']]';
+			} else if (numHours && numMinutes) {
+				msg = '[[error:' + languageKey + '-hours-minutes, ' + numHours + ', ' + numMinutes + ']]';
+			} else if (numHours && !numMinutes) {
+				msg = '[[error:' + languageKey + '-hours, ' + numHours + ']]';
+			} else if (numMinutes && numSeconds) {
+				msg = '[[error:' + languageKey + '-minutes-seconds, ' + numMinutes + ', ' + numSeconds + ']]';
+			} else if (numMinutes && !numSeconds) {
+				msg = '[[error:' + languageKey + '-minutes, ' + numMinutes + ']]';
+			}
+			alerts.error(msg);
+			return false;
+		}
+		return true;
+	};
+	const utils = require('../../utils');
 
 	let staleReplyAnyway = false;
 
@@ -173,8 +200,8 @@ define('forum/topic/postTools', [
 
 			const timestamp = parseInt(getData(btn, 'data-timestamp'), 10);
 			const postEditDuration = parseInt(ajaxify.data.postEditDuration, 10);
-
-			if (checkDuration(postEditDuration, timestamp, 'post-edit-duration-expired')) {
+			console.log('Lucia Fang');
+			if (PostTools.checkDuration(postEditDuration, timestamp, 'post-edit-duration-expired')) {
 				hooks.fire('action:composer.post.edit', {
 					pid: getData(btn, 'data-pid'),
 				});
@@ -194,42 +221,11 @@ define('forum/topic/postTools', [
 			const btn = $(this);
 			const timestamp = parseInt(getData(btn, 'data-timestamp'), 10);
 			const postDeleteDuration = parseInt(ajaxify.data.postDeleteDuration, 10);
-			if (checkDuration(postDeleteDuration, timestamp, 'post-delete-duration-expired')) {
+			console.log('Lucia Fang');
+			if (PostTools.checkDuration(postDeleteDuration, timestamp, 'post-delete-duration-expired')) {
 				togglePostDelete($(this));
 			}
 		});
-
-		function checkDuration(duration, postTimestamp, languageKey) {
-			if (!ajaxify.data.privileges.isAdminOrMod && duration && Date.now() - postTimestamp > duration * 1000) {
-				const numDays = Math.floor(duration / 86400);
-				const numHours = Math.floor((duration % 86400) / 3600);
-				const numMinutes = Math.floor(((duration % 86400) % 3600) / 60);
-				const numSeconds = ((duration % 86400) % 3600) % 60;
-				let msg = '[[error:' + languageKey + ', ' + duration + ']]';
-				if (numDays) {
-					if (numHours) {
-						msg = '[[error:' + languageKey + '-days-hours, ' + numDays + ', ' + numHours + ']]';
-					} else {
-						msg = '[[error:' + languageKey + '-days, ' + numDays + ']]';
-					}
-				} else if (numHours) {
-					if (numMinutes) {
-						msg = '[[error:' + languageKey + '-hours-minutes, ' + numHours + ', ' + numMinutes + ']]';
-					} else {
-						msg = '[[error:' + languageKey + '-hours, ' + numHours + ']]';
-					}
-				} else if (numMinutes) {
-					if (numSeconds) {
-						msg = '[[error:' + languageKey + '-minutes-seconds, ' + numMinutes + ', ' + numSeconds + ']]';
-					} else {
-						msg = '[[error:' + languageKey + '-minutes, ' + numMinutes + ']]';
-					}
-				}
-				alerts.error(msg);
-				return false;
-			}
-			return true;
-		}
 
 		postContainer.on('click', '[component="post/restore"]', function () {
 			togglePostDelete($(this));
@@ -552,3 +548,5 @@ define('forum/topic/postTools', [
 
 	return PostTools;
 });
+
+
