@@ -7,10 +7,6 @@ const { JSDOM } = require('jsdom');
 const slugify = require('../src/slugify');
 const db = require('./mocks/databasemock');
 
-<<<<<<< HEAD
-=======
-
->>>>>>> project1/feature/reduce-complexity-postTools
 describe('Utility Methods', () => {
 	// https://gist.github.com/robballou/9ee108758dc5e0e2d028
 	// create some jsdom magic to allow jQuery to work
@@ -284,12 +280,6 @@ describe('Utility Methods', () => {
 	});
 
 	it('should return false if browser is not android', (done) => {
-<<<<<<< HEAD
-		global.navigator = {
-			userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36',
-		};
-		assert.equal(utils.isAndroidBrowser(), false);
-=======
 		Object.defineProperty(global, 'navigator', {
 			value: {
 				userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36',
@@ -297,7 +287,6 @@ describe('Utility Methods', () => {
 			writable: true,
 		});
 		assert.strictEqual(utils.isAndroidBrowser(), false);
->>>>>>> project1/feature/reduce-complexity-postTools
 		done();
 	});
 
