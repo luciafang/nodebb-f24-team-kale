@@ -98,22 +98,10 @@ module.exports = function (User) {
 
 	User.saveSettings = async function (uid, data) {
 		const maxPostsPerPage = meta.config.maxPostsPerPage || 20;
-		if (
-			!data.postsPerPage ||
-			parseInt(data.postsPerPage, 10) <= 1 ||
-			parseInt(data.postsPerPage, 10) > maxPostsPerPage
-		) {
-			throw new Error(`[[error:invalid-pagination-value, 2, ${maxPostsPerPage}]]`);
-		}
-
 		const maxTopicsPerPage = meta.config.maxTopicsPerPage || 20;
-		if (
-			!data.topicsPerPage ||
-			parseInt(data.topicsPerPage, 10) <= 1 ||
-			parseInt(data.topicsPerPage, 10) > maxTopicsPerPage
-		) {
-			throw new Error(`[[error:invalid-pagination-value, 2, ${maxTopicsPerPage}]]`);
-		}
+
+		validatePagination(data.postsPerPage, maxPostsPerPage);
+		validatePagination(data.topicsPerPage, maxTopicsPerPage);
 
 		const languageCodes = await languages.listCodes();
 		if (data.userLang && !languageCodes.includes(data.userLang)) {
@@ -160,6 +148,13 @@ module.exports = function (User) {
 		await User.updateDigestSetting(uid, data.dailyDigestFreq);
 		return await User.getSettings(uid);
 	};
+
+	function validatePagination(value, maxLimit) {
+		const intValue = parseInt(value, 10);
+		if (!value || intValue <= 1 || intValue > maxLimit) {
+			throw new Error(`[[error:invalid-pagination-value, 2, ${maxLimit}]]`);
+		}
+	}
 
 	User.updateDigestSetting = async function (uid, dailyDigestFreq) {
 		await db.sortedSetsRemove(['digest:day:uids', 'digest:week:uids', 'digest:month:uids'], uid);

@@ -2698,4 +2698,26 @@ describe('User', () => {
 			});
 		});
 	});
+	describe('User.saveSettings', () => {
+		it('should throw an error if postsPerPage exceeds the maximum limit', async () => {
+			const mockUid = 'testUser';
+			const invalidData = { postsPerPage: 1000, topicsPerPage: 10 };
+			try {
+				await User.saveSettings(mockUid, invalidData);
+			} catch (error) {
+				assert.strictEqual(error.message, '[[error:invalid-pagination-value, 2, 20]]');
+			}
+		});
+
+		it('should throw an error if topicsPerPage is less than the minimum limit', async () => {
+			const mockUid = 'testUser';
+			const invalidData = { postsPerPage: 10, topicsPerPage: 0 };
+
+			try {
+				await User.saveSettings(mockUid, invalidData);
+			} catch (error) {
+				assert.strictEqual(error.message, '[[error:invalid-pagination-value, 2, 20]]');
+			}
+		});
+	});
 });
