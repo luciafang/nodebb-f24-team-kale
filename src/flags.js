@@ -134,14 +134,6 @@ Flags.getCount = async function ({ uid, filters, query }) {
 	return flagIds.length;
 };
 
-function applyFlagFilters(type, sets, orSets, filters, uid) {
-	if (Flags._filters.hasOwnProperty(type)) {
-		Flags._filters[type](sets, orSets, filters[type], uid);
-	} else {
-		winston.warn(`[flags/list] No flag filter type found: ${type}`);
-	}
-}
-
 Flags.getFlagIdsWithFilters = async function ({ filters, uid, query }) {
 	let sets = [];
 	const orSets = [];
@@ -151,10 +143,12 @@ Flags.getFlagIdsWithFilters = async function ({ filters, uid, query }) {
 	filters.perPage = filters.hasOwnProperty('perPage') ? Math.abs(parseInt(filters.perPage, 10) || 20) : 20;
 
 	for (const type of Object.keys(filters)) {
-		applyFlagFilters(type, sets, orSets, filters, uid);
+		if (Flags._filters.hasOwnProperty(type)) {
+			Flags._filters[type](sets, orSets, filters[type], uid);
+		} else {
+			winston.warn(`[flags/list] No flag filter type found: ${type}`);
+		}
 	}
-	console.log('KAYLA_LEI');
-
 	sets = (sets.length || orSets.length) ? sets : ['flags:datetime']; // No filter default
 
 	let flagIds = [];
