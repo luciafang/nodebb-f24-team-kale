@@ -15,13 +15,23 @@ define('forum/category/tools', [
 	CategoryTools.init = function () {
 		topicSelect.init(updateDropdownOptions);
 
-		handlePinnedTopicSort();
+		console.log('yayyy elaine');
 
+		handlePinnedTopicSort();
+		observeTopicLabelsFunc();
+		eventHandlers();
+		resetEventListeners();
+	};
+
+	function observeTopicLabelsFunc() {
 		$('[component="category/topic"]').each((index, el) => {
 			threadTools.observeTopicLabels($(el).find('[component="topic/labels"]'));
 		});
+	}
 
+	function eventHandlers() {
 		components.get('topic/delete').on('click', function () {
+			console.log('yayyy elaine');
 			categoryCommand('del', '/state', 'delete', onDeleteRestoreComplete);
 			return false;
 		});
@@ -127,7 +137,8 @@ define('forum/category/tools', [
 				tag.init(topics, ajaxify.data.tagWhitelist, onCommandComplete);
 			});
 		});
-
+	}
+	function resetEventListeners() {
 		CategoryTools.removeListeners();
 		socket.on('event:topic_deleted', setDeleteState);
 		socket.on('event:topic_restored', setDeleteState);
@@ -137,8 +148,7 @@ define('forum/category/tools', [
 		socket.on('event:topic_pinned', setPinnedState);
 		socket.on('event:topic_unpinned', setPinnedState);
 		socket.on('event:topic_moved', onTopicMoved);
-	};
-
+	}
 	function categoryCommand(method, path, command, onComplete) {
 		if (!onComplete) {
 			onComplete = function () {};
@@ -339,6 +349,5 @@ define('forum/category/tools', [
 			});
 		});
 	}
-
 	return CategoryTools;
 });
