@@ -298,3 +298,13 @@ topicsAPI.bump = async (caller, { tid }) => {
 	await topics.markAsUnreadForAll(tid);
 	topics.pushUnreadCount(caller.uid);
 };
+
+topicsAPI.markResolved = async (caller, { tid }) => {
+	await topics.setTopicField(tid, 'resolved', true);
+	console.log('resolved pressed!');
+};
+
+topicsAPI.markUnresolved = async (caller, { tid }) => {
+	await topics.setTopicField(tid, 'resolved', false);
+	console.log('unresolved pressed!');
+};
