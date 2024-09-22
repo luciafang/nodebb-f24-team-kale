@@ -301,10 +301,10 @@ topicsAPI.bump = async (caller, { tid }) => {
 
 topicsAPI.markResolved = async (caller, { tid }) => {
 	await topics.setTopicField(tid, 'resolved', true);
-	console.log("resolved pressed!")
+	console.log('resolved pressed!');
 };
 
 topicsAPI.markUnresolved = async (caller, { tid }) => {
 	await topics.setTopicField(tid, 'resolved', false);
-	console.log("unresolved pressed!")
+	console.log('unresolved pressed!');
 };
