@@ -20,6 +20,10 @@ module.exports = function (Posts) {
 		const timestamp = data.timestamp || Date.now();
 		const isMain = data.isMain || false;
 
+		if (!isMain) {
+			await topics.setTopicField(tid, 'resolved', true);
+		}
+
 		if (!uid && parseInt(uid, 10) !== 0) {
 			throw new Error('[[error:invalid-uid]]');
 		}
