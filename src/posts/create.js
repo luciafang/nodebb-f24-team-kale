@@ -19,6 +19,7 @@ module.exports = function (Posts) {
 		const content = data.content.toString();
 		const timestamp = data.timestamp || Date.now();
 		const isMain = data.isMain || false;
+		const { anonymous } = data;
 
 		if (!isMain) {
 			await topics.setTopicField(tid, 'resolved', true);
@@ -39,6 +40,7 @@ module.exports = function (Posts) {
 			tid: tid,
 			content: content,
 			timestamp: timestamp,
+			anonymous: anonymous,
 		};
 
 		if (data.toPid) {

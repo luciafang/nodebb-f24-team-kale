@@ -50,10 +50,11 @@ topicsAPI.get = async function (caller, data) {
 	return topic;
 };
 
-topicsAPI.create = async function (caller, data) {
+topicsAPI.create = async function (caller, data, anonymous = false) {
 	if (!data) {
 		throw new Error('[[error:invalid-data]]');
 	}
+	data.anonymous = anonymous;
 
 	const payload = { ...data };
 	payload.tags = payload.tags || [];
@@ -83,10 +84,11 @@ topicsAPI.create = async function (caller, data) {
 	return result.topicData;
 };
 
-topicsAPI.reply = async function (caller, data) {
+topicsAPI.reply = async function (caller, data, anonymous = false) {
 	if (!data || !data.tid || (meta.config.minimumPostLength !== 0 && !data.content)) {
 		throw new Error('[[error:invalid-data]]');
 	}
+	data.anonymous = anonymous;
 	const payload = { ...data };
 	apiHelpers.setDefaultPostData(caller, payload);
 
