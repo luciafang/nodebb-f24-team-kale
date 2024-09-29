@@ -11,6 +11,7 @@
                 <i class="fa fa-times-circle"></i> Not Resolved
             </span>
         {{{ end }}}
+
     </td>
 
 </tr>
