@@ -210,25 +210,23 @@ Topics.bump = async (req, res) => {
 };
 
 Topics.markResolved = async (req, res) => {
-    const tid = req.params.tid;  // Get the topic ID from the request parameters
-    try {
-        // Call the backend logic to mark the topic as resolved
-        await topicsAPI.markResolved(req.user.uid, { tid });
-        helpers.formatApiResponse(200, res, { success: true, message: 'Topic marked as resolved' });
-    } catch (err) {
-        console.error('Error marking topic as resolved:', err);
-        helpers.formatApiResponse(500, res, { success: false, error: err.message });
-    }
+	const { tid } = req.params;
+	try {
+		await topicsAPI.markResolved(req.user.uid, { tid });
+		helpers.formatApiResponse(200, res, { success: true, message: 'Topic marked as resolved' });
+	} catch (err) {
+		console.error('Error marking topic as resolved:', err);
+		helpers.formatApiResponse(500, res, { success: false, error: err.message });
+	}
 };
 
 Topics.markUnresolved = async (req, res) => {
-    const tid = req.params.tid;  // Get the topic ID from the request parameters
-    try {
-        // Call the backend logic to mark the topic as unresolved
-        await topicsAPI.markUnresolved(req.user.uid, { tid });
-        helpers.formatApiResponse(200, res, { success: true, message: 'Topic marked as unresolved' });
-    } catch (err) {
-        console.error('Error marking topic as unresolved:', err);
-        helpers.formatApiResponse(500, res, { success: false, error: err.message });
-    }
+	const { tid } = req.params;
+	try {
+		await topicsAPI.markUnresolved(req.user.uid, { tid });
+		helpers.formatApiResponse(200, res, { success: true, message: 'Topic marked as unresolved' });
+	} catch (err) {
+		console.error('Error marking topic as unresolved:', err);
+		helpers.formatApiResponse(500, res, { success: false, error: err.message });
+	}
 };

@@ -77,7 +77,7 @@ define('forum/topic/threadTools', [
 		topicContainer.on('click', '[component="topic/mark-resolved"]', function () {
 			var text = document.getElementById('resolve-text');
 			var isResolved = text.innerHTML === 'Mark Resolved';
-		
+
 			if (isResolved) {
 				markTopicResolved();
 				alerts.success('Topic has been marked as resolved');
@@ -159,7 +159,7 @@ define('forum/topic/threadTools', [
 		});
 
 		function markTopicResolved() {
-			const tid = ajaxify.data.tid; 
+			const tid = ajaxify.data.tid;
 			api.put(`/topics/${tid}/resolved`, {}, () => {
 				console.log('Resolved API called');
 				toggleResolve('resolved');
@@ -173,12 +173,12 @@ define('forum/topic/threadTools', [
 				toggleResolve('unresolved');
 			});
 		}
-		
+
 		// Toggle the button text and icon based on the resolved/unresolved state
 		function toggleResolve(state) {
 			var text = document.getElementById('resolve-text');
 			var icon = document.getElementById('resolve-icon');
-		
+
 			if (state === 'resolved') {
 				text.innerHTML = 'Mark Unresolved';
 				icon.className = 'fa fa-fw fa-times text-danger';
