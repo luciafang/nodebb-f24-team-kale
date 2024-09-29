@@ -1426,29 +1426,28 @@ describe('Topic\'s', () => {
 	});
 
 	describe('resolved', () => {
-		const socketItems = require('../src/socket.io/items');
-		let itemId;
-		let userId;
+		// const socketTopics = require('../src/socket.io/topics');
+		let tid;
+		let uid;
 		before(async () => {
-			const { itemData } = await items.create({ userId: item.userId, title: 'resolve item', content: 'resolve item content', categoryId: item.categoryId });
-			userId = await User.create({ username: 'regularJoe' });
-			itemId = itemData.itemId;
+			const { topicData } = await topics.post({ uid: topic.userId, title: 'unresolved topic', content: 'unresolved topic content', cid: topic.categoryId });
+			uid = await User.create({ username: 'regularJoe' });
+			tid = topicData.tid;
 		});
-	
+
 		it('should mark item resolved', async () => {
 			await apiTopics.markResolved({ uid: adminUid }, { tid });
 			const isResolved = await topics.getTopicFields(tid, ['resolved']);
-			assert.strictEqual(isResolved, true);
+			assert.strictEqual(isResolved.resolved, 'true');
 		});
-	
+
 		it('should mark item unresolved', async () => {
-			await apiTopics.markResolved({ uid: adminUid }, { tid });
+			await apiTopics.markUnresolved({ uid: adminUid }, { tid });
 			const isResolved = await topics.getTopicFields(tid, ['resolved']);
-			assert.strictEqual(isResolved, true);
+			assert.strictEqual(isResolved.resolved, 'false');
 		});
-	
 	});
-	
+
 
 	describe('tags', () => {
 		const socketTopics = require('../src/socket.io/topics');
