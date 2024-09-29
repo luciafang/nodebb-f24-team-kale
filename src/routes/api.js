@@ -10,6 +10,9 @@ module.exports = function (app, middleware, controllers) {
 	const router = express.Router();
 	app.use('/api', router);
 
+	const routerV3 = express.Router();
+    app.use('/api/v3', routerV3);
+
 	router.get('/config', [...middlewares, middleware.applyCSRF], helpers.tryRoute(controllers.api.getConfig));
 
 	router.get('/self', [...middlewares], helpers.tryRoute(controllers.user.getCurrentUser));
@@ -42,4 +45,28 @@ module.exports = function (app, middleware, controllers) {
 		middleware.canViewUsers,
 		middleware.checkAccountPermissions,
 	], helpers.tryRoute(controllers.accounts.edit.uploadPicture));
+
+	routerV3.put('/topics/:tid/resolved', [...middlewares], async (req, res) => {
+        const tid = req.params.tid;
+        try {
+            await topicsAPI.markResolved(req.user.uid, { tid });
+            console.log('Topic marked as resolved');
+            res.status(200).send({ success: true });
+        } catch (err) {
+            console.error('Error marking topic as resolved:', err);
+            res.status(500).send({ error: err.message });
+        }
+    });
+
+    routerV3.delete('/topics/:tid/resolved', [...middlewares], async (req, res) => {
+        const tid = req.params.tid;
+        try {
+            await topicsAPI.markUnresolved(req.user.uid, { tid });
+            console.log('Topic marked as unresolved');
+            res.status(200).send({ success: true });
+        } catch (err) {
+            console.error('Error marking topic as unresolved:', err);
+            res.status(500).send({ error: err.message });
+        }
+    });
 };
