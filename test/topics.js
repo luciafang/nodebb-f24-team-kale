@@ -1425,6 +1425,31 @@ describe('Topic\'s', () => {
 		});
 	});
 
+	describe('resolved', () => {
+		const socketItems = require('../src/socket.io/items');
+		let itemId;
+		let userId;
+		before(async () => {
+			const { itemData } = await items.create({ userId: item.userId, title: 'resolve item', content: 'resolve item content', categoryId: item.categoryId });
+			userId = await User.create({ username: 'regularJoe' });
+			itemId = itemData.itemId;
+		});
+	
+		it('should mark item resolved', async () => {
+			await apiTopics.markResolved({ uid: adminUid }, { tid });
+			const isResolved = await topics.getTopicFields(tid, ['resolved']);
+			assert.strictEqual(isResolved, true);
+		});
+	
+		it('should mark item unresolved', async () => {
+			await apiTopics.markResolved({ uid: adminUid }, { tid });
+			const isResolved = await topics.getTopicFields(tid, ['resolved']);
+			assert.strictEqual(isResolved, true);
+		});
+	
+	});
+	
+
 	describe('tags', () => {
 		const socketTopics = require('../src/socket.io/topics');
 		const socketAdmin = require('../src/socket.io/admin');
