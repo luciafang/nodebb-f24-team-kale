@@ -311,10 +311,8 @@ topicsAPI.markUnresolved = async (caller, { tid }) => {
 
 topicsAPI.isResolved = async (caller, { tid }) => {
 	const isResolved = await topics.getTopicFields(tid, ['resolved']);
-	if (strictEqual(isResolved.resolved, 'false')){
+	if (isResolved.resolved === 'false') {
 		return false;
 	}
-	else{
-		return true;
-	}
+	return true;
 };
