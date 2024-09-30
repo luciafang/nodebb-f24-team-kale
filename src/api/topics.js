@@ -308,3 +308,13 @@ topicsAPI.markUnresolved = async (caller, { tid }) => {
 	await topics.setTopicField(tid, 'resolved', false);
 	console.log('unresolved pressed!');
 };
+
+topicsAPI.isResolved = async (caller, { tid }) => {
+	const isResolved = await topics.getTopicFields(tid, ['resolved']);
+	if (strictEqual(isResolved.resolved, 'false')){
+		return false;
+	}
+	else{
+		return true;
+	}
+};
