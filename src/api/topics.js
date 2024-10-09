@@ -301,20 +301,8 @@ topicsAPI.bump = async (caller, { tid }) => {
 
 topicsAPI.markResolved = async (caller, { tid }) => {
 	await topics.setTopicField(tid, 'resolved', true);
-	console.log('resolved pressed!');
 };
 
 topicsAPI.markUnresolved = async (caller, { tid }) => {
 	await topics.setTopicField(tid, 'resolved', false);
-	console.log('unresolved pressed!');
-};
-
-topicsAPI.isResolved = async (caller, { tid }) => {
-	const isResolved = await topics.getTopicFields(tid, ['resolved']);
-	if (strictEqual(isResolved.resolved, 'false')){
-		return false;
-	}
-	else{
-		return true;
-	}
 };
