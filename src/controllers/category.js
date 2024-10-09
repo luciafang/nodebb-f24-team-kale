@@ -154,9 +154,17 @@ categoryController.get = async function (req, res, next) {
 	});
 
 	analytics.increment([`pageviews:byCid:${categoryData.cid}`]);
+	categoryData.topics = setResolvedBooleans(categoryData.topics);
 
 	res.render('category', categoryData);
 };
+
+function setResolvedBooleans(topics) {
+	for (let i = 0; i < topics.length; i++) {
+		topics[i].resolved = topics[i].resolved === 'true';
+	}
+	return topics;
+}
 
 async function buildBreadcrumbs(req, categoryData) {
 	const breadcrumbs = [

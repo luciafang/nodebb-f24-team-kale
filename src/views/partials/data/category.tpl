@@ -2,7 +2,7 @@
     
     <td class="text-center">
         <!-- Resolved/Not Resolved Display -->
-        {{{ if resolved }}}
+        {{{ if topics.resolved }}}
             <span class="badge badge-success">
                 <i class="fa fa-check-circle"></i> Resolved
             </span>

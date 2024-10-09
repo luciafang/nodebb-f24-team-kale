@@ -75,16 +75,29 @@ define('forum/topic/threadTools', [
 		});
 
 		topicContainer.on('click', '[component="topic/mark-resolved"]', function () {
-			var text = document.getElementById('resolve-text');
-			var isResolved = text.innerHTML === 'Mark Resolved';
-
-			if (isResolved) {
-				markTopicResolved();
+			topicCommand('put', '/resolved', undefined, () => {
+				if (app.previousUrl && !app.previousUrl.match('^/topic')) {
+					ajaxify.go(app.previousUrl, function () {
+						handleBack.onBackClicked(true);
+					});
+				} else if (ajaxify.data.category) {
+					ajaxify.go('category/' + ajaxify.data.category.slug, handleBack.onBackClicked);
+				}
 				alerts.success('Topic has been marked as resolved');
-			} else {
-				markTopicUnresolved();
+			});
+		});
+
+		topicContainer.on('click', '[component="topic/mark-unresolved"]', function () {
+			topicCommand('del', '/resolved', undefined, () => {
+				if (app.previousUrl && !app.previousUrl.match('^/topic')) {
+					ajaxify.go(app.previousUrl, function () {
+						handleBack.onBackClicked(true);
+					});
+				} else if (ajaxify.data.category) {
+					ajaxify.go('category/' + ajaxify.data.category.slug, handleBack.onBackClicked);
+				}
 				alerts.success('Topic has been marked as unresolved');
-			}
+			});
 		});
 
 		topicContainer.on('click', '[component="topic/mark-unread-for-all"]', function () {
@@ -157,36 +170,6 @@ define('forum/topic/threadTools', [
 		topicContainer.on('click', '[component="topic/ignoring"]', function () {
 			changeWatching('ignore');
 		});
-
-		function markTopicResolved() {
-			const tid = ajaxify.data.tid;
-			api.put(`/topics/${tid}/resolved`, {}, () => {
-				console.log('Resolved API called');
-				toggleResolve('resolved');
-			});
-		}
-
-		function markTopicUnresolved() {
-			const tid = ajaxify.data.tid;
-			api.del(`/topics/${tid}/resolved`, {}, () => {
-				console.log('Unresolved API called');
-				toggleResolve('unresolved');
-			});
-		}
-
-		// Toggle the button text and icon based on the resolved/unresolved state
-		function toggleResolve(state) {
-			var text = document.getElementById('resolve-text');
-			var icon = document.getElementById('resolve-icon');
-
-			if (state === 'resolved') {
-				text.innerHTML = 'Mark Unresolved';
-				icon.className = 'fa fa-fw fa-times text-danger';
-			} else {
-				text.innerHTML = 'Mark Resolved';
-				icon.className = 'fa fa-fw fa-check text-success';
-			}
-		}
 
 		function changeWatching(type, state = 1) {
 			const method = state ? 'put' : 'del';
