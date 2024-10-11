@@ -136,6 +136,7 @@ topicsController.get = async function getTopic(req, res, next) {
 		rel.href = `${url}/topic/${topicData.slug}${rel.href}`;
 		res.locals.linkTags.push(rel);
 	});
+	topicData.resolved = topicData.resolved === 'true';
 	res.render('topic', topicData);
 };
 

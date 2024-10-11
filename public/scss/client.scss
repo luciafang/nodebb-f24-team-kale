@@ -9,3 +9,43 @@
 @import "modules/icon-picker";
 @import "modules/alerts.scss";
 @import "modules/scrollbar.scss";
+
+
+.text-center {
+    text-align: center;
+    vertical-align: middle;  
+}
+
+
+.badge-success {
+    background-color: #28a745; 
+    color: white;              
+    padding: 0.5em 1em;         
+    border-radius: 0.25rem;    
+    display: inline-flex;      
+    align-items: center;       
+    font-weight: bold;         
+    font-size: 1em;           
+}
+
+.badge-secondary {
+    background-color: #6c757d;  
+    color: white;              
+    padding: 0.5em 1em;        
+    border-radius: 0.25rem;     
+    display: inline-flex;      
+    align-items: center;        
+    font-weight: bold;         
+    font-size: 1em;            
+}
+
+.badge-success i,
+.badge-secondary i {
+    margin-right: 0.5em;        
+    font-size: 1.2em;           
+}
+
+.badge-success:hover, .badge-secondary:hover {
+    opacity: 0.8;              
+    cursor: default;          
+}

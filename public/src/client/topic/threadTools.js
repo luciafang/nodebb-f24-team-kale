@@ -70,8 +70,33 @@ define('forum/topic/threadTools', [
 				} else if (ajaxify.data.category) {
 					ajaxify.go('category/' + ajaxify.data.category.slug, handleBack.onBackClicked);
 				}
-
 				alerts.success('[[topic:mark-unread.success]]');
+			});
+		});
+
+		topicContainer.on('click', '[component="topic/mark-resolved"]', function () {
+			topicCommand('put', '/resolved', undefined, () => {
+				if (app.previousUrl && !app.previousUrl.match('^/topic')) {
+					ajaxify.go(app.previousUrl, function () {
+						handleBack.onBackClicked(true);
+					});
+				} else if (ajaxify.data.category) {
+					ajaxify.go('category/' + ajaxify.data.category.slug, handleBack.onBackClicked);
+				}
+				alerts.success('Topic has been marked as resolved');
+			});
+		});
+
+		topicContainer.on('click', '[component="topic/mark-unresolved"]', function () {
+			topicCommand('del', '/resolved', undefined, () => {
+				if (app.previousUrl && !app.previousUrl.match('^/topic')) {
+					ajaxify.go(app.previousUrl, function () {
+						handleBack.onBackClicked(true);
+					});
+				} else if (ajaxify.data.category) {
+					ajaxify.go('category/' + ajaxify.data.category.slug, handleBack.onBackClicked);
+				}
+				alerts.success('Topic has been marked as unresolved');
 			});
 		});
 

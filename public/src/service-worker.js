@@ -17,3 +17,10 @@ self.addEventListener('fetch', function (event) {
 		return response;
 	}));
 });
+
+// // Disable fetch event handling temporarily
+// self.addEventListener('fetch', function (event) {
+//     console.log('Service worker fetch event disabled for testing:', event.request.url);
+//     // Do nothing in this event listener to bypass all fetch handling
+//     return;
+// });

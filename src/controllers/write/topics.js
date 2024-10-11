@@ -7,6 +7,7 @@ const topics = require('../../topics');
 const helpers = require('../helpers');
 const middleware = require('../../middleware');
 const uploadsController = require('../uploads');
+const topicsAPI = require('../../api/topics');
 
 const Topics = module.exports;
 
@@ -206,4 +207,26 @@ Topics.bump = async (req, res) => {
 	await api.topics.bump(req, { ...req.params });
 
 	helpers.formatApiResponse(200, res);
+};
+
+Topics.markResolved = async (req, res) => {
+	const { tid } = req.params;
+	try {
+		await topicsAPI.markResolved(req.user.uid, { tid });
+		helpers.formatApiResponse(200, res, { success: true, message: 'Topic marked as resolved' });
+	} catch (err) {
+		console.error('Error marking topic as resolved:', err);
+		helpers.formatApiResponse(500, res, { success: false, error: err.message });
+	}
+};
+
+Topics.markUnresolved = async (req, res) => {
+	const { tid } = req.params;
+	try {
+		await topicsAPI.markUnresolved(req.user.uid, { tid });
+		helpers.formatApiResponse(200, res, { success: true, message: 'Topic marked as unresolved' });
+	} catch (err) {
+		console.error('Error marking topic as unresolved:', err);
+		helpers.formatApiResponse(500, res, { success: false, error: err.message });
+	}
 };
