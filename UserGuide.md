@@ -32,7 +32,7 @@ And the code coverage report, after the unit tests were added, can be found here
 
 All other codebase changes were in the frontend and bridging the connections between frontend and backend. Those elements were all tested with manual user testing, as detailed above. 
 
-
+Note that the test suite does fail in GitHub Actions for our last pull request (https://github.com/CMU-313/nodebb-f24-team-kale/pull/33). However, none of the failed errors are in files or on tests remotely related to what we our implementing. Our feature and the website still functions as normal. We think these failed tests potentially have to do with some configuration change or cache issues unrelated to the implementation of our feature. 
 
 ## Feature: making anonymous posts
 
