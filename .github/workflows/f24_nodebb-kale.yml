@@ -19,7 +19,7 @@ jobs:
       ./.github/workflows/test.yaml
 
   build-and-deploy:
-    if: github.repository == 'nodebb-f24-team-kale'
+    if: github.repository == 'luciafang/nodebb-f24-team-kale'
     needs: lint-and-test
 
     runs-on: ubuntu-latest
